@@ -12,17 +12,37 @@ export class ChartComponent implements OnInit {
       type: 'line'
     },
     title: {
-      text: 'Linechart'
+      text: 'Exchange Rates'
+    },
+    xAxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    },
+    yAxis: {
+      title: {
+        text: 'Rate (Rub)'
+      }
     },
     credits: {
       enabled: false
     },
     series: [
       {
-        name: 'Line 1',
-        data: [1, 2, 3]
+        name: 'USD',
+        data: [61.82, 64.10, 74.20, 75.05, 74.76]
+      }  as any,
+      {
+        name: 'EUR',
+        data: [68.67, 69.98, 82.14, 82.01, 80.56]
       }  as any
-    ]
+    ],
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true
+        },
+        enableMouseTracking: true
+      }
+    }
   });
 
   add() {
