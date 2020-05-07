@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Chart} from "angular-highcharts";
+import {FetchService} from "../fetch.service";
 
 @Component({
   selector: 'app-chart',
@@ -7,6 +8,8 @@ import {Chart} from "angular-highcharts";
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
+  selectedPeriod = 'week';
+
   chart = new Chart({
     chart: {
       type: 'line'
@@ -28,11 +31,11 @@ export class ChartComponent implements OnInit {
     series: [
       {
         name: 'USD',
-        data: [61.82, 64.10, 74.20, 75.05, 74.76]
+        data: []
       }  as any,
       {
         name: 'EUR',
-        data: [68.67, 69.98, 82.14, 82.01, 80.56]
+        data: []
       }  as any
     ],
     plotOptions: {
@@ -45,13 +48,37 @@ export class ChartComponent implements OnInit {
     }
   });
 
-  add() {
-    this.chart.addPoint(Math.floor(Math.random() * 10));
-  }
-
-  constructor() { }
+  constructor(private fetchService: FetchService) {}
 
   ngOnInit(): void {
+    this.fetchData()
   }
 
+  private fetchData () {
+    this.fetchService.loadRates(this.selectedPeriod)
+      .then(data => this.updateGraph(data))
+  }
+
+  private updateGraph(data) {
+    this.chart.ref.update({
+      xAxis: {
+        categories: data.categories,
+      },
+      series: [{
+        name: 'USD',
+        data: data.USD
+      } as any,
+        {
+          name: 'EUR',
+          data: data.EUR
+        }  as any
+      ]
+    }, true, true)
+  }
+
+
+  onPeriodChange() {
+    this.fetchData();
+
+  }
 }

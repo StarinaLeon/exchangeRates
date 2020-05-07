@@ -3,12 +3,10 @@
 <label for="eur">EUR</label>
 <input type="checkbox" id="eur">
 
-<select>
+<select [(ngModel)]="selectedPeriod" (ngModelChange)="onPeriodChange()">
   <option value="year">Year</option>
   <option value="month">Month</option>
-  <option value="weak">Weak</option>
+  <option value="week"  selected>Week</option>
 </select>
 
-
-<button (click)="add()">Add Point!</button>
 <div [chart]="chart"></div>
