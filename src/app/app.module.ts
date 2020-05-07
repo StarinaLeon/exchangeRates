@@ -1,14 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {ChartModule} from "angular-highcharts";
 
 import { AppComponent } from './app.component';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChartComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
