@@ -1,12 +1,15 @@
-<label for="usd">USD</label>
-<input type="checkbox" id="usd">
-<label for="eur">EUR</label>
-<input type="checkbox" id="eur">
+<form [formGroup]="form">
+  <div *ngFor="let currency of currencies; let i = index">
+    <label>
+      <input type="checkbox" [value]="currency.value" (change)="onCheckboxChange()">
+      {{currency.currency}}
+    </label>
+  </div>
+</form>
 
 <select [(ngModel)]="selectedPeriod" (ngModelChange)="onPeriodChange()">
   <option value="year">Year</option>
   <option value="month">Month</option>
   <option value="week"  selected>Week</option>
 </select>
-
 <div [chart]="chart"></div>

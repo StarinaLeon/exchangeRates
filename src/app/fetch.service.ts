@@ -23,12 +23,21 @@ export class FetchService {
   }
 
   loadRates(period) {
+    const CURRENT_DAY = moment().date();
 
     return fetch(FetchService.getURL(period))
       .then(response => response.json())
       .then(data => {
         // console.log(data.rates)
-        let dates = Object.keys(data.rates).sort();
+        let dates = Object.keys(data.rates).sort().filter(date => {
+          if (period !== 'year') {
+            return true
+          } else {
+            const currentDate = moment(date,'YYYY-MM-DD');
+            return  currentDate.date() === CURRENT_DAY
+          }
+        });
+        console.log(dates)
         const USDRates = dates.map(date => +(1 / data.rates[date].USD).toFixed(2))
         const EURRates = dates.map(date => +(1 / data.rates[date].EUR).toFixed(2))
         // console.log(USDRates, EURRates);
