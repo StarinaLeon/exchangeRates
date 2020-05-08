@@ -1,10 +1,11 @@
-<form [formGroup]="form">
-  <div *ngFor="let currency of currencies; let i = index">
-    <label>
-      <input type="checkbox" [value]="currency.value" (change)="onCheckboxChange()">
-      {{currency.currency}}
-    </label>
-  </div>
+<form [formGroup]="form" [(ngModel)]="selectedCurrencies"  (ngModelChange)="onCheckboxChange()" >
+  <label for="usd">
+    <input type="checkbox" id="usd" formControlName="usd" name="usd" checked> USD
+  </label>
+
+  <label for="eur">
+    <input type="checkbox" id="eur" formControlName="eur" name="eur"> EUR
+  </label>
 </form>
 
 <select [(ngModel)]="selectedPeriod" (ngModelChange)="onPeriodChange()">

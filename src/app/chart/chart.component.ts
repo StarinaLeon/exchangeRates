@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Chart} from "angular-highcharts";
 import {FetchService} from "../fetch.service";
-import { FormGroup, FormBuilder} from "@angular/forms";
+import {FormGroup, FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-chart',
@@ -11,10 +11,7 @@ import { FormGroup, FormBuilder} from "@angular/forms";
 export class ChartComponent implements OnInit {
   form: FormGroup;
 
-  currencies = [
-    {currency: 'Usd', value: 'usd'},
-    {currency: 'Eur', value: 'eur'}
-  ];
+  selectedCurrencies = [];
 
   selectedPeriod = 'week';
 
@@ -56,10 +53,10 @@ export class ChartComponent implements OnInit {
     }
   });
 
-  constructor(private fetchService: FetchService,
-              private fb: FormBuilder) {
-    this.form = this.fb.group({
-      checkArray: this.fb.array([])
+  constructor(private fetchService: FetchService) {
+    this.form = new FormGroup({
+      usd: new FormControl(),
+      eur: new FormControl()
     })
   }
 
@@ -69,7 +66,7 @@ export class ChartComponent implements OnInit {
 
 
   private fetchData () {
-    this.fetchService.loadRates(this.selectedPeriod)
+    this.fetchService.loadRates(this.selectedPeriod, this.selectedCurrencies)
       .then(data => this.updateGraph(data))
   }
 
@@ -96,6 +93,7 @@ export class ChartComponent implements OnInit {
   }
 
   onCheckboxChange() {
-
+    this.fetchData();
+    console.log(this.form)
   }
 }
