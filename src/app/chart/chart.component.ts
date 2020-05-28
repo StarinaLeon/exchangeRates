@@ -76,24 +76,23 @@ export class ChartComponent implements OnInit {
 	}
 
 	private updateGraph(data) {
-    const series = [];
+		const series = [];
 
-	  if (data.USD) {
-	    series.push({
-        name:'USD',
-        data: data.USD,
-      })
+		if (data.USD) {
+			series.push({
+				name: 'USD',
+				data: data.USD
+			});
+		}
 
-    }
+		if (data.EUR) {
+			series.push({
+				name: 'EUR',
+				data: data.EUR
+			});
+		}
 
-    if (data.EUR) {
-      series.push({
-        name: 'EUR',
-        data: data.EUR
-      })
-    }
-
-    console.log(series)
+		console.log(series);
 		this.chart.ref.update(
 			{
 				xAxis: {

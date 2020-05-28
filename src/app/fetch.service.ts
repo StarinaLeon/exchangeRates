@@ -27,10 +27,7 @@ export class FetchService {
 		return `https://api.exchangeratesapi.io/history?start_at=${startDate}&end_at=${endDate}&base=RUB`;
 	}
 
-	loadRates(params:{usd: boolean; eur: boolean; period: string}) {
-	 //console.log(params)
-
-
+	loadRates(params: {usd: boolean; eur: boolean; period: string}) {
 		const CURRENT_DAY = moment().date();
 
 		return fetch(FetchService.getURL(params.period))
@@ -50,16 +47,16 @@ export class FetchService {
 				const USDRates = dates.map((date) => +(1 / data.rates[date].USD).toFixed(2));
 				const EURRates = dates.map((date) => +(1 / data.rates[date].EUR).toFixed(2));
 				const result: {
-          categories;
-          USD?;
-          EUR?;
-        } ={categories: dates}
+					categories;
+					USD?;
+					EUR?;
+				} = {categories: dates};
 				if (params.usd) {
-				  result.USD = USDRates;
-        }
+					result.USD = USDRates;
+				}
 				if (params.eur) {
-				  result.EUR = EURRates;
-        }
+					result.EUR = EURRates;
+				}
 				return result;
 			});
 	}
