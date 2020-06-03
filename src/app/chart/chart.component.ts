@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Chart} from 'angular-highcharts';
-import {FetchService} from '../fetch.service';
+import {FetchService} from '../shared/fetch.service';
 import {FormGroup, FormControl} from '@angular/forms';
+import {chartDefaultConfig} from './chart.config';
 
 @Component({
 	selector: 'app-chart',
@@ -11,47 +12,7 @@ import {FormGroup, FormControl} from '@angular/forms';
 export class ChartComponent implements OnInit {
 	form: FormGroup;
 
-	selectedCurrencies = [];
-
-	selectedPeriod = 'week';
-
-	chart = new Chart({
-		chart: {
-			type: 'line'
-		},
-		title: {
-			text: 'Exchange Rates'
-		},
-		xAxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-		},
-		yAxis: {
-			title: {
-				text: 'Rate (Rub)'
-			}
-		},
-		credits: {
-			enabled: false
-		},
-		series: [
-			{
-				name: 'USD',
-				data: []
-			} as any,
-			{
-				name: 'EUR',
-				data: []
-			} as any
-		],
-		plotOptions: {
-			line: {
-				dataLabels: {
-					enabled: true
-				},
-				enableMouseTracking: true
-			}
-		}
-	});
+	chart = new Chart(chartDefaultConfig);
 
 	constructor(private fetchService: FetchService) {
 		this.createFiltersForm();
@@ -92,7 +53,6 @@ export class ChartComponent implements OnInit {
 			});
 		}
 
-		console.log(series);
 		this.chart.ref.update(
 			{
 				xAxis: {

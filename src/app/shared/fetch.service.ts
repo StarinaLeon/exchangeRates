@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
+import {DATE_FORMAT} from './constants';
 
 @Injectable({
 	providedIn: 'root'
@@ -8,20 +9,20 @@ export class FetchService {
 	constructor() {}
 
 	private static getURL(period) {
-		const endDate = moment().format('YYYY-MM-DD');
+		const endDate = moment().format(DATE_FORMAT);
 		let startDate;
 		if (period === 'month') {
 			startDate = moment()
 				.subtract(1, 'month')
-				.format('YYYY-MM-DD');
+				.format(DATE_FORMAT);
 		} else if (period === 'week') {
 			startDate = moment()
 				.subtract(1, 'week')
-				.format('YYYY-MM-DD');
+				.format(DATE_FORMAT);
 		} else if (period === 'year') {
 			startDate = moment()
 				.subtract(1, 'year')
-				.format('YYYY-MM-DD');
+				.format(DATE_FORMAT);
 		}
 
 		return `https://api.exchangeratesapi.io/history?start_at=${startDate}&end_at=${endDate}&base=RUB`;
@@ -40,10 +41,11 @@ export class FetchService {
 						if (params.period !== 'year') {
 							return true;
 						} else {
-							const currentDate = moment(date, 'YYYY-MM-DD');
+							const currentDate = moment(date, DATE_FORMAT);
 							return currentDate.date() === CURRENT_DAY;
 						}
 					});
+
 				const USDRates = dates.map((date) => +(1 / data.rates[date].USD).toFixed(2));
 				const EURRates = dates.map((date) => +(1 / data.rates[date].EUR).toFixed(2));
 				const result: {
